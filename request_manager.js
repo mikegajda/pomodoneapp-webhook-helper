@@ -1,12 +1,12 @@
 const fetch = require("node-fetch");
 
-async function startTimer(body) {
+async function startTimer(requestBody) {
   let now = new Date();
   let duration = -Math.floor(now / 1000);
   let start = now.toISOString().split(".")[0] + "Z";
-  let body = JSON.stringify({
+  let postBody = JSON.stringify({
     created_with: "pomodoneapp-webhook-helper",
-    description: body.description,
+    description: requestBody.description,
     pid: 183274766,
     tags: ["Work"],
     billable: false,
@@ -15,7 +15,7 @@ async function startTimer(body) {
     start,
     stop: null,
   });
-  console.log("body", body);
+  console.log("postBody", postBody);
   return await fetch(
     "https://api.track.toggl.com/api/v9/workspaces/6502875/time_entries",
     {
@@ -23,7 +23,7 @@ async function startTimer(body) {
       headers: {
         Authorization: process.env.AUTH_TOKEN,
       },
-      body,
+      body: postBody,
     }
   );
 }
