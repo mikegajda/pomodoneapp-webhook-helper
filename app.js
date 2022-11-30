@@ -20,9 +20,9 @@ app.use(
 );
 
 const router = express.Router();
-router.get("/request", async (req, res) => {
-  let response = await request_manager.processRequest(req.query["url"]);
-  res.json(response);
+router.post("/startTimer", async (req, res) => {
+  let response = await request_manager.startTimer(req.body);
+  res.send(response);
 });
 
 // point the base route at the router
