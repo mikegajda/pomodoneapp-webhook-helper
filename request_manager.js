@@ -28,4 +28,29 @@ async function startTimer(requestBody) {
   );
 }
 
+async function stopCurrentTimer() {
+  let response = await fetch(
+    "https://api.track.toggl.com/api/v9/me/time_entries/current",
+    {
+      method: "GET",
+      headers: {
+        Authorization: process.env.AUTH_TOKEN,
+      },
+    }
+  );
+  let body = await response.json();
+  if (body && body.id) {
+    return await fetch(
+      `https://api.track.toggl.com/api/v9/workspaces/6502875/time_entries/${body.id}/stop`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: process.env.AUTH_TOKEN,
+        },
+      }
+    );
+  }
+}
+
 module.exports.startTimer = startTimer;
+module.exports.stopCurrentTimer = stopCurrentTimer;
