@@ -22,9 +22,15 @@ app.use(
 const router = express.Router();
 router.post("/startTimer", async (req, res) => {
   let response = await request_manager.startTimer(req.body);
-  res.send(response);
+  let body = await response.json();
+  res.status(response.status).send(body);
 });
 
+router.get("/stopCurrentTimer", async (req, res) => {
+  let response = await request_manager.stopCurrentTimer();
+  let body = await response.json();
+  res.status(response.status).send(body);
+});
 // point the base route at the router
 app.use("/", router);
 
