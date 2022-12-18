@@ -26,6 +26,11 @@ router.post("/startTimer", async (req, res) => {
   res.status(response.status).send(body);
 });
 
+router.post("/receiveWebhook", async (req, res) => {
+  console.log("webhook body=", JSON.stringify(req.body));
+  res.status(200).send(body);
+});
+
 router.get("/stopCurrentTimer", async (req, res) => {
   let response = await request_manager.stopCurrentTimer();
   let body = await response.json();
